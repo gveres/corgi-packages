@@ -202,9 +202,10 @@ evaluated, like `(println \"{{buffer-file-name}}\")'.
   (let ((reg (replace-regexp-in-string
               "{{\\([^}]+\\)}}"
               (lambda (s)
-                (eval
-                 (read
-                  (match-string 1 s))))
+		(save-match-data
+		  (eval
+                   (read
+                    (match-string 1 s)))))
               (get-register register))))
     (cond
      ((string-match-p "^#_cljs" reg)
